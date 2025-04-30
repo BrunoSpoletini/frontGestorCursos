@@ -1,13 +1,78 @@
 import Image from "next/image";
 
-import Button from "../components/button";
+import { Button } from "@/components/ui/button";
 
-import { FaBeer } from "react-icons/fa";
+import { PiStudentFill } from "react-icons/pi";
+
+import Link from "next/link"
 
 export default function Home() {
   return (
-    <div>
-      <h1>Let's grab a <FaBeer />!</h1>
+    <div className="flex flex-col all-space-between h-screen justify-between">
+      {/* banner for the "Gestor de Cursos" page, login and register buttons */}
+      <div className="flex flex-row items-center justify-around gap-4 p-4 bg-gray-200">
+        <h1 className="text-3xl font-bold">Course Manager</h1>
+        <div className="flex gap-4">
+          <Button variant="default" size="lg">
+            Login
+          </Button>
+          <Button variant="outline" size="lg">
+            Register
+          </Button>
+        </div>
+      </div>
+
+      {/* content of the page */}
+      <div className="flex flex-col items-center justify-center gap-4">
+        <PiStudentFill size={50} />
+        <h2 className="text-2xl font-bold">Welcome to the Course Manager</h2>
+        <p className="text-lg">
+          Here you will be able to manage your courses and students easily.
+        </p>
+        <div className="flex justify-center gap-4">
+          <Button asChild size="lg">
+            <Link href="/register">Get Started</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link href="/login">Sign In</Link>
+          </Button>
+        </div>
+      </div>
+
+      {/* footer */}
+      <footer className="flex gap-4 items-center justify-center">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/file.svg"
+            alt="File icon"
+            width={16}
+            height={16}
+          />
+          Learn
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/window.svg"
+            alt="Window icon"
+            width={16}
+            height={16}
+          />
+          Examples
+        </a>
+      </footer>
+
     </div>
   );
 }
