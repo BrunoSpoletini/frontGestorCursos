@@ -12,8 +12,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from 'sonner'
 
-require("dotenv").config()
-
 export default function RegisterPage() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -49,14 +47,14 @@ export default function RegisterPage() {
                         throw new Error(`${value}`);
                     }
                 } else {
-                    throw new Error(error.detail || "Unknown error")
+                    throw new Error(error.message || "Unknown error")
                 }
             }
             toast.success("Registration successful", {
                 description: "Redirecting to login page...",
             })
             // // wait for 2 seconds before redirecting
-            await new Promise((resolve) => setTimeout(resolve, 2000))
+            //await new Promise((resolve) => setTimeout(resolve, 2000))
             // redirect to login page
             router.push("/login")
 
