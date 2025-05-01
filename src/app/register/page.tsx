@@ -10,7 +10,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
+
+require("dotenv").config()
 
 export default function RegisterPage() {
     const [username, setUsername] = useState("")
@@ -22,7 +24,6 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-
         if (password !== confirmPassword) {
             toast.error("Passwords don't match");
             return
@@ -31,7 +32,7 @@ export default function RegisterPage() {
         setIsLoading(true)
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/register/", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_IP}/api/register/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,23 +41,27 @@ export default function RegisterPage() {
             })
 
             if (!response.ok) {
+                console.log(response)
                 const error = await response.json()
-                throw error
+                console.log(error)
+                if (response.status == 400) {
+                    for (const [key, value] of Object.entries(error)) {
+                        throw new Error(`${value}`);
+                    }
+                } else {
+                    throw new Error(error.detail || "Unknown error")
+                }
             }
-
-
             toast.success("Registration successful", {
-                description: "You can now login with your credentials.",
+                description: "Redirecting to login page...",
             })
             // // wait for 2 seconds before redirecting
             await new Promise((resolve) => setTimeout(resolve, 2000))
             // redirect to login page
             router.push("/login")
 
-        } catch (errorPost: any) {
-            for (const [key, value] of Object.entries(errorPost)) {
-                toast.error(`${value}`)
-            }
+        } catch (error: any) {
+            toast.error("Error: " + (error.message || "Unknown error"));
         } finally {
             setIsLoading(false)
         }
@@ -104,6 +109,7 @@ export default function RegisterPage() {
                                 <SelectContent>
                                     <SelectItem value="student">Student</SelectItem>
                                     <SelectItem value="instructor">Instructor</SelectItem>
+                                    <SelectItem value="admin">Admin</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
