@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from 'sonner'
 
+
 export default function LoginPage() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -43,16 +44,33 @@ export default function LoginPage() {
             }
 
             const data = await response.json()
-            console.log(data)
+
             // Store token or session data
             localStorage.setItem("token", data.access)
+            localStorage.setItem("refreshToken", data.refresh)
+
+            // Get user data
+            const userResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_IP}/api/my-user/`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${data.access}`,
+                },
+            })
+
+            if (!userResponse.ok) {
+                throw new Error("Failed to fetch user data")
+            }
+
+            const userData = await userResponse.json()
+            localStorage.setItem("user", JSON.stringify(userData))
+
 
             // Redirect based on user role
-            if (data.role === "admin") {
+            if (userData.role === "admin") {
                 router.push("/admin/dashboard")
-            } else if (data.role === "instructor") {
+            } else if (userData.role === "instructor") {
                 router.push("/instructor/dashboard")
-            } else if (data.role === "student") {
+            } else if (userData.role === "student") {
                 router.push("/student/dashboard")
             } else {
                 throw new Error("Unknown user role")
@@ -91,9 +109,13 @@ export default function LoginPage() {
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
                                 <Label htmlFor="password">Password</Label>
-                                <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                                <button
+                                    type="button"
+                                    className="text-sm text-primary hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"
+                                    onClick={() => toast.error("That's not implemented yet 😢")}
+                                >
                                     Forgot password?
-                                </Link>
+                                </button>
                             </div>
                             <Input
                                 id="password"
