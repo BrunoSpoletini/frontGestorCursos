@@ -1,6 +1,6 @@
 "use client";
 
-import { useDashboard } from "../DashboardContext";
+import { useDashboard } from "../InstructorContext";
 import { GraduationCap, User, BookOpen, MessageCircle } from "lucide-react";
 import React from "react";
 

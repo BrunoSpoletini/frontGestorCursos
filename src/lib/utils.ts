@@ -35,7 +35,7 @@ export async function getUserAuth(router: any, role: string) {
             router.push("/login")
         }
     } catch (error) {
-        console.error("Error fetching user info:", error)
+        toast.error("Failed to fetch user info")
         localStorage.clear()
         router.push("/login")
     }

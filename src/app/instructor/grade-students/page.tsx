@@ -1,6 +1,6 @@
 "use client";
 
-import { useDashboard } from "../DashboardContext";
+import { useDashboard } from "../InstructorContext";
 import { BookOpen, User, ChevronDown, ChevronRight, Pencil } from "lucide-react";
 import { toast } from "sonner";
 import React, { useState } from "react";

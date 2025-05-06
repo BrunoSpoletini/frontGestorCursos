@@ -1,6 +1,6 @@
 "use client";
 
-import { useDashboard } from "../DashboardContext";
+import { useDashboard } from "../InstructorContext";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { BookOpen, Edit, Trash2, PlusCircle } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
@@ -26,10 +26,10 @@ export default function CoursesPage() {
         try {
             const response = await courseAPI.createCourse({ name, description });
             const newCourse = response.data;
-            setCourses((prev: any) => [newCourse, ...prev]);
+            setCourses((prev) => [newCourse, ...prev]);
             setShowModal(false);
             form.reset();
-        } catch (error: any) {
+        } catch (error) {
             toast.error("Failed to create course: " + error);
         } finally {
             setIsSubmitting(false);

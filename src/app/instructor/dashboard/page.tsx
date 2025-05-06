@@ -1,6 +1,6 @@
 "use client"
 
-import { useDashboard } from "./DashboardContext";
+import { useDashboard } from "../InstructorContext";
 import RecentActivity from "./RecentActivity";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 

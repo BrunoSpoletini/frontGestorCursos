@@ -12,7 +12,7 @@ import { getUserAuth } from "@/lib/utils";
 import { useEffect } from "react";
 import { courseAPI, enrollmentAPI, gradeAPI } from "@/api/api";
 import { CourseType } from "@/lib/commonTypes";
-import { DashboardProvider, useDashboard } from "./DashboardContext";
+import { DashboardProvider, useDashboard } from "./InstructorContext";
 
 function LayoutContent({ children }: { children: ReactNode }) {
     const {
@@ -26,9 +26,9 @@ function LayoutContent({ children }: { children: ReactNode }) {
     const pathname = usePathname();
     const navItems = [
         { href: "/instructor/dashboard", label: "Dashboard", icon: <BarChart className="h-5 w-5 mr-2" /> },
-        { href: "/instructor/dashboard/courses", label: "My Courses", icon: <BookOpen className="h-5 w-5 mr-2" /> },
-        { href: "/instructor/dashboard/grade-students", label: "Grade Students", icon: <Pencil className="h-5 w-5 mr-2" /> },
-        { href: "/instructor/dashboard/grades", label: "Grades History", icon: <History className="h-5 w-5 mr-2" /> },
+        { href: "/instructor/courses", label: "My Courses", icon: <BookOpen className="h-5 w-5 mr-2" /> },
+        { href: "/instructor/grade-students", label: "Grade Students", icon: <Pencil className="h-5 w-5 mr-2" /> },
+        { href: "/instructor/grades", label: "Grades History", icon: <History className="h-5 w-5 mr-2" /> },
     ];
 
     useEffect(() => {
