@@ -1,23 +1,9 @@
-// Types for Course and Grade
-export type Course = {
-  id: number;
-  name: string;
-  description: string;
-  // Add other fields as needed
-};
+import { CourseType, Grade } from "./commonTypes";
 
-export type Grade = {
-  id: number;
-  enrollment: number;
-  created_at: string;
-  score: number;
-  comment: string;
-  // Add other fields as needed
-};
 
 export type Activity =
   | { type: 'course'; id: number; name: string }
-  | { type: 'grade'; id: number; created_at: string; score: number; comment: string; courseName: string; enrollment: number };
+  | { type: 'grade'; id: number; created_at: string; score: number | string; comment: string; courseName: string; enrollment: number };
 
 /**
  * Combines recent courses and grades into a unified, sorted activity list.
@@ -26,7 +12,7 @@ export type Activity =
  * @returns Array of up to 5 most recent activities
  */
 export function getRecentActivities(
-  courses: Course[],
+  courses: CourseType[],
   grades: Record<number, Grade[]>
 ): Activity[] {
   // Get recent courses (sorted by id descending, as a proxy for creation time)

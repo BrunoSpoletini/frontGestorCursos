@@ -3,10 +3,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { getRecentActivities, Activity } from "@/lib/getRecentActivities";
 
 // Types for props
-import type { Course, Grade } from "@/lib/getRecentActivities";
+import type { CourseType, Grade } from "@/lib/commonTypes";
 
 interface RecentActivityProps {
-    courses: Course[];
+    courses: CourseType[];
     grades: Record<number, Grade[]>;
     enrollmentIdToUser: Record<number, string>;
 }

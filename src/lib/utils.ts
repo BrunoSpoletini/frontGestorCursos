@@ -15,20 +15,27 @@ export async function getUserAuth(router: any, role: string) {
         return userData
     } 
 
-    // If not in localStorage, fetch from API
-    const response = await userAPI.getMyUser()
+    try{
+        // If not in localStorage, fetch from API
+        const response = await userAPI.getMyUser()
 
-    if (response.status !== 200) {
-        toast.error("Failed to fetch user info")
-        localStorage.clear()
-        router.push("/login")
-    }
+        
+        if (response.status !== 200) {
+            toast.error("Failed to fetch user info")
+            localStorage.clear()
+            router.push("/login")
+        }
 
-    userData = response.data
-    localStorage.setItem("user", JSON.stringify(userData))
+        userData = response.data
+        localStorage.setItem("user", JSON.stringify(userData))
 
-    if (userData.role !== role) {
-        toast.error("You are not authorized to access this page")
+        if (userData.role !== role) {
+            toast.error("You are not authorized to access this page")
+            localStorage.clear()
+            router.push("/login")
+        }
+    } catch (error) {
+        console.error("Error fetching user info:", error)
         localStorage.clear()
         router.push("/login")
     }
