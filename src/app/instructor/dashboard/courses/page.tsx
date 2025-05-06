@@ -117,30 +117,25 @@ export default function CoursesPage() {
                     </div>
                 ) : (
                     courses.map((course) => (
-                        <Card key={course.id} className="shadow-lg border-primary/20 hover:border-primary transition-all group">
+                        <Card key={course.id} className="shadow-lg border-primary/20 hover:border-primary transition-all group h-full flex flex-col">
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2 text-xl group-hover:text-primary transition">
-                                    <BookOpen className="h-5 w-5 text-primary" />
+                                    <BookOpen className="h-6 w-6 min-w-6 text-primary" />
                                     {course.name}
                                 </CardTitle>
                                 <CardDescription className="line-clamp-2 min-h-[2.5em]">
                                     {course.description}
                                 </CardDescription>
                             </CardHeader>
-                            <CardContent>
-                                {/* Placeholder for more course info, stats, etc. */}
-                                <div className="text-xs text-muted-foreground">
-                                    Course ID: <span className="font-mono">{course.id}</span>
+                            <CardFooter className="flex justify-between items-end mt-auto pt-4 gap-2">
+                                <div className="flex gap-2">
+                                    <button className="flex items-center gap-1 px-3 py-1 rounded bg-muted hover:bg-primary/10 text-primary text-xs font-medium transition">
+                                        <Edit className="h-4 w-4 min-w-4" /> Edit
+                                    </button>
+                                    <button className="flex items-center gap-1 px-3 py-1 rounded bg-destructive/10 hover:bg-destructive/20 text-destructive text-xs font-medium transition">
+                                        <Trash2 className="h-4 w-4 min-w-4" /> Delete
+                                    </button>
                                 </div>
-                            </CardContent>
-                            <CardFooter className="flex gap-2 justify-end">
-                                {/* Placeholder action buttons */}
-                                <button className="flex items-center gap-1 px-3 py-1 rounded bg-muted hover:bg-primary/10 text-primary text-xs font-medium transition">
-                                    <Edit className="h-4 w-4" /> Edit
-                                </button>
-                                <button className="flex items-center gap-1 px-3 py-1 rounded bg-destructive/10 hover:bg-destructive/20 text-destructive text-xs font-medium transition">
-                                    <Trash2 className="h-4 w-4" /> Delete
-                                </button>
                             </CardFooter>
                         </Card>
                     ))

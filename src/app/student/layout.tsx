@@ -1,74 +1,64 @@
-"use client"
+"use client";
 
 import type { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { BarChart, BookOpen, History, LogOut, Menu, User, Pencil } from "lucide-react";
+import { BookOpen, GraduationCap, LogOut, Menu, User, Home, ClipboardList } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { toast } from "sonner";
-import { getUserAuth } from "@/lib/utils";
-import { useEffect } from "react";
-import { courseAPI, enrollmentAPI, gradeAPI } from "@/api/api";
-import { CourseType } from "@/lib/commonTypes";
-import { DashboardProvider, useDashboard } from "./DashboardContext";
+import React, { useEffect } from "react";
+import { StudentProvider, useStudent } from "./StudentContext";
+import { enrollmentAPI, courseAPI, gradeAPI, userAPI } from "@/api/api";
+
 
 function LayoutContent({ children }: { children: ReactNode }) {
-    const {
-        user, setUser,
-        courses, setCourses,
-        enrollments, setEnrollments,
-        grades, setGrades,
-        isLoading, setIsLoading
-    } = useDashboard();
+    const { user, setUser, isLoading, setIsLoading, setCourses, setEnrollments, setGrades, handleLogout } = useStudent();
     const router = useRouter();
     const pathname = usePathname();
     const navItems = [
-        { href: "/instructor/dashboard", label: "Dashboard", icon: <BarChart className="h-5 w-5 mr-2" /> },
-        { href: "/instructor/dashboard/courses", label: "My Courses", icon: <BookOpen className="h-5 w-5 mr-2" /> },
-        { href: "/instructor/dashboard/grade-students", label: "Grade Students", icon: <Pencil className="h-5 w-5 mr-2" /> },
-        { href: "/instructor/dashboard/grades", label: "Grades History", icon: <History className="h-5 w-5 mr-2" /> },
+        { href: "/student/dashboard", label: "Dashboard", icon: <Home className="h-5 w-5 mr-2" /> },
+        { href: "/student/enroll", label: "Enroll", icon: <ClipboardList className="h-5 w-5 mr-2" /> },
+        { href: "/student/my-courses", label: "My Courses", icon: <BookOpen className="h-5 w-5 mr-2" /> },
+        { href: "/student/my-grades", label: "My Grades", icon: <GraduationCap className="h-5 w-5 mr-2" /> },
     ];
 
     useEffect(() => {
-        const fetchUser = async () => {
+        async function fetchStudentData() {
             try {
-                const userData = await getUserAuth(router, "instructor")
-                setUser(userData)
-                // Fetch courses
-                const response = await courseAPI.getCourses()
-                if (response.status !== 200) {
-                    throw new Error("Failed to fetch courses")
-                }
-                // Filter courses by instructor
-                const filteredCourses = response.data.results.filter((course: CourseType) => course.created_by === userData.username)
-                setCourses(filteredCourses)
+                setIsLoading(true);
+                // Fetch user
+                const userRes = await userAPI.getMyUser();
+                setUser(userRes.data);
+                // Fetch all courses
+                const coursesRes = await courseAPI.getCourses();
+                setCourses(coursesRes.data.results);
                 // Fetch enrollments
-                const responseEnrollments = await enrollmentAPI.getInstructorEnrollments()
-                if (responseEnrollments.status !== 200) {
-                    throw new Error("Failed to fetch enrollments")
-                }
-                setEnrollments(responseEnrollments.data.results)
+                const enrollmentsRes = await enrollmentAPI.getMyEnrollments();
+                setEnrollments(enrollmentsRes.data.results);
                 // Fetch grades
-                const gradesData: { [key: number]: any[] } = {}
-                for (const course of filteredCourses) {
-                    const responseGrades = await gradeAPI.getCourseGrades(course.id)
-                    if (responseGrades.status !== 200) {
-                        throw new Error("Failed to fetch grades")
-                    }
-                    gradesData[course.id] = responseGrades.data.length !== 0 ? responseGrades.data : []
+                const gradesRes = await gradeAPI.getMyGrades();
+                // Group grades by course using enrollment's course ID
+                const gradesByCourse: Record<number, any[]> = {};
+                for (const grade of gradesRes.data.results) {
+                    const enrollmentObj = enrollmentsRes.data.results.find((enr: any) => enr.id === grade.enrollment);
+                    if (!enrollmentObj) continue;
+                    const courseId = enrollmentObj.course;
+                    if (!gradesByCourse[courseId]) gradesByCourse[courseId] = [];
+                    gradesByCourse[courseId].push(grade);
                 }
-                setGrades(gradesData)
-            } catch (error) {
-                toast.error("Error: " + error)
-                localStorage.clear()
+                setGrades(gradesByCourse);
+            } catch (e) {
+                localStorage.clear();
+                router.replace("/login");
             } finally {
-                setIsLoading(false)
+                setIsLoading(false);
             }
         }
-        fetchUser()
-    }, [router, setUser, setCourses, setEnrollments, setGrades, setIsLoading])
+        fetchStudentData();
+    }, [router, setUser, setCourses, setEnrollments, setGrades, setIsLoading]);
+
+
 
     if (isLoading) {
         return (
@@ -78,16 +68,8 @@ function LayoutContent({ children }: { children: ReactNode }) {
                     <p>Loading...</p>
                 </div>
             </div>
-        )
+        );
     }
-
-    const handleLogout = () => {
-        localStorage.clear();
-        router.push("/login");
-        toast.success("Logged out", {
-            description: "You have been successfully logged out.",
-        });
-    };
 
     const NavItems = () => (
         <nav className="space-y-1">
@@ -127,20 +109,18 @@ function LayoutContent({ children }: { children: ReactNode }) {
                                 <DialogTitle className="sr-only">Navigation Menu</DialogTitle>
                                 <div className="py-4">
                                     <div className="px-3 py-2 mb-6">
-                                        <h2 className="text-lg font-semibold mb-1">Course Manager</h2>
+                                        <h2 className="text-lg font-semibold mb-1">Student Portal</h2>
                                         <p className="text-sm text-muted-foreground">{user?.username}</p>
-                                        <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
                                     </div>
                                     <NavItems />
                                 </div>
                             </SheetContent>
                         </Sheet>
-                        <h1 className="text-xl font-bold">Course Manager</h1>
+                        <h1 className="text-xl font-bold">Student Portal</h1>
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="hidden md:block text-right">
                             <p className="text-sm font-medium">{user?.username}</p>
-                            <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
                         </div>
                         <User className="h-8 w-8" />
                     </div>
@@ -160,10 +140,10 @@ function LayoutContent({ children }: { children: ReactNode }) {
     );
 }
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default function StudentLayout({ children }: { children: ReactNode }) {
     return (
-        <DashboardProvider>
+        <StudentProvider>
             <LayoutContent>{children}</LayoutContent>
-        </DashboardProvider>
+        </StudentProvider>
     );
 } 
