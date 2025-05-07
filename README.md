@@ -2,8 +2,6 @@
 
 A modern, full-featured course management web application for instructors and students, built with **Next.js**, **React**, and a modular, scalable architecture.
 
----
-
 ## Features
 
 ### Instructor View
@@ -85,7 +83,7 @@ public/            # Static assets (icons, images)
 
 ## API
 
-The app expects a backend conforming to the [Course managaer API.yaml](Course%20managaer%20API.yaml) OpenAPI spec, supporting:
+The app expects a backend conforming to the [Course managaer API schema](./schema.yml) OpenAPI spec, supporting:
 - User registration and authentication (JWT)
 - Course creation, listing, and enrollment
 - Grade assignment and retrieval
@@ -94,7 +92,7 @@ The app expects a backend conforming to the [Course managaer API.yaml](Course%20
 
 ## Roadmap / TODO
 
-- [ ] Improve error messages (parse and display API error bodies)
+- [ ] Improve error messages
 - [ ] Implement Edit and Delete for courses (backend + frontend)
 - [ ] Implement admin view
 - [ ] Improve type safety
@@ -107,8 +105,8 @@ The app expects a backend conforming to the [Course managaer API.yaml](Course%20
 
 #### Student View
 ![Student Dashboard](./images/student/student-dashboard.png)
-![Student Courses](./images/student/student-courses.png)
 ![Student Enrollment](./images/student/student-enrollment.png)
+![Student Courses](./images/student/student-courses.png)
 ![Student Grades](./images/student/student-grades.png)
 
 #### Instructor View
