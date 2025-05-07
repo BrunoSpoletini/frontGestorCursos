@@ -1,8 +1,6 @@
-# Course Manager
+# Course Manager Frontend
 
 A modern, full-featured course management web application for instructors and students, built with **Next.js**, **React**, and a modular, scalable architecture.
-
-![Screenshot](Captura%20de%20pantalla%202025-04-11%20135431.png)
 
 ---
 
@@ -11,14 +9,17 @@ A modern, full-featured course management web application for instructors and st
 ### Instructor View
 - **Dashboard:** Overview of courses, students, and grading activity.
 - **My Courses:** Create, view, and (soon) edit/delete courses.
-- **Grade Students:** Batch grade students, only see those not yet graded.
+- **Grade Students:** Batch grade students.
 - **Grades History:** Read-only history of all grades given.
 
 ### Student View
-- **Dashboard:** Summary cards for enrolled courses, grades, and average; recent grades with comments.
+- **Dashboard:** Summary cards for enrolled courses, grades average and recent grades.
 - **Enroll:** Browse all courses, enroll in new ones, see enrollment status.
 - **My Courses:** List of all enrolled courses.
-- **My Grades:** Table of all grades received, grouped by course.
+- **My Grades:** Table of all grades received.
+
+### Admin View
+- **Work in progress**
 
 ### General
 - **Authentication:** Role-based login and registration (student, instructor, admin).
@@ -28,11 +29,12 @@ A modern, full-featured course management web application for instructors and st
 
 ---
 
-## Getting Started
+## Technologies
+- **React**
+- **Tailwind**
+- **Next.js**
 
-### Prerequisites
-- Node.js (v18+ recommended)
-- npm, yarn, or pnpm
+## Getting Started
 
 ### Installation
 
@@ -40,8 +42,6 @@ A modern, full-featured course management web application for instructors and st
 git clone https://github.com/yourusername/frontGestorCursos.git
 cd frontGestorCursos
 npm install
-# or
-yarn install
 ```
 
 ### Environment Setup
@@ -56,13 +56,15 @@ cp .env_template .env
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
+
+### Running the backend
+
+For setting up the RESTfull API course manager, see [the backend project](https://github.com/BrunoSpoletini/gestorCursos)
 
 ## Project Structure
 
@@ -94,30 +96,24 @@ The app expects a backend conforming to the [Course managaer API.yaml](Course%20
 
 - [ ] Improve error messages (parse and display API error bodies)
 - [ ] Implement Edit and Delete for courses (backend + frontend)
-- [ ] Polish and extend admin features
-- [ ] Add more tests and type safety
+- [ ] Implement admin view
+- [ ] Improve type safety
 
 ---
 
-## Contributing
+## Images
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+### App Screenshots
 
----
+#### Login Page
+![Login Page](./images/login.png)
 
-## License
+#### Student Dashboard
+![Student Dashboard](./images/student-dashboard.png)
 
-[MIT](LICENSE) (or your chosen license)
+#### Instructor Dashboard
+![Instructor Dashboard](./images/instructor-dashboard.png)
 
----
+#### Course Details
+![Course Details](./images/course-details.png)
 
-## Acknowledgements
-
-- [Next.js](https://nextjs.org/)
-- [React](https://react.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Lucide Icons](https://lucide.dev/)
-
----
-
-**Tip:** For a quick demo, use the included test accounts or register a new user.

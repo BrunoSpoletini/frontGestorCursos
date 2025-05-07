@@ -1,5 +1,0 @@
-To do's:
-- Improve error messeges:
-    - Process the body of the requests to read the errors from the API
-    - Implement Edit and Delete API endpoints on the server for the courses and give the buttons onClick functionality
-    
