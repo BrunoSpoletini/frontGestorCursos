@@ -105,15 +105,17 @@ The app expects a backend conforming to the [Course managaer API.yaml](Course%20
 
 ### App Screenshots
 
-#### Login Page
-![Login Page](./images/login.png)
+#### Student View
+![Student Dashboard](./images/student/student-dashboard.png)
+![Student Courses](./images/student/student-courses.png)
+![Student Enrollment](./images/student/student-enrollment.png)
+![Student Grades](./images/student/student-grades.png)
 
-#### Student Dashboard
-![Student Dashboard](./images/student-dashboard.png)
+#### Instructor View
+![Instructor Dashboard](./images/instructor/instructorView-dashboard.png)
+![Instructor Courses](./images/instructor/instructorView-courses.png)
+![Instructor Grade Students](./images/instructor/instructorView-gradeStudents.png)
+![Instructor Grades History](./images/instructor/instructorView-gradesHistory.png)
 
-#### Instructor Dashboard
-![Instructor Dashboard](./images/instructor-dashboard.png)
 
-#### Course Details
-![Course Details](./images/course-details.png)
 
